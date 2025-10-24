@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" width="600" height="300" role="img" aria-label="First Try">
+  <rect width="100%" height="100%" fill="transparent"/>
+
+  <!-- Top row: smaller, lighter -->
+  <text x="50%" y="110"
+        font-family="sans-serif"
+        font-weight="400"
+        font-size="90"
+        textLength="520"
+        lengthAdjust="spacingAndGlyphs"
+        fill="#333"
+        text-anchor="middle">
+    first
+  </text>
+
+  <!-- Bottom row: bigger, bolder, all caps -->
+  <text x="50%" y="230"
+        font-family="sans-serif"
+        font-weight="900"
+        font-size="130"
+        textLength="520"
+        lengthAdjust="spacingAndGlyphs"
+        fill="#000"
+        text-anchor="middle">
+    TRY
+  </text>
+</svg>
