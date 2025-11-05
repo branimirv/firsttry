@@ -1,0 +1,21 @@
+/**
+ * Application constants
+ */
+export const STORAGE_KEYS = {
+  AUTH_TOKEN: "authToken",
+} as const;
+
+export const API_ENDPOINTS = {
+  AUTH: {
+    LOGIN: "/auth/login",
+    REGISTRATION: "/auth/registration",
+  },
+  PROTECTED: "/protected",
+} as const;
+
+export const ROUTES = {
+  HOME: "/",
+  LOGIN: "/login",
+  REGISTRATION: "/registration",
+  DASHBOARD: "/dashboard",
+} as const;
