@@ -1,24 +1,42 @@
 import jwt, { type SignOptions } from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-key";
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
+const JWT_REFRESH_SECRET =
+  process.env.JWT_REFRESH_SECRET || "fallback-refresh-secret-key";
+
+const ACCESS_TOKEN_EXPIRES_IN = process.env.ACCESS_TOKEN_EXPIRES_IN || "15m";
+const REFRESH_TOKEN_EXPIRES_IN = process.env.REFRESH_TOKEN_EXPIRES_IN || "30d";
 
 export interface TokenPayload {
   id: string;
   email: string;
 }
 
-export const generateToken = (payload: TokenPayload) => {
+export const generateAccessToken = (payload: TokenPayload) => {
   const options: SignOptions = {
-    expiresIn: JWT_EXPIRES_IN,
+    expiresIn: ACCESS_TOKEN_EXPIRES_IN,
   };
   return jwt.sign(payload, JWT_SECRET, options);
 };
 
-export const verifyToken = (token: string) => {
+export const generateRefreshToken = (payload: TokenPayload) => {
+  const options: SignOptions = {
+    expiresIn: REFRESH_TOKEN_EXPIRES_IN,
+  };
+};
+
+export const verifyAccessToken = (token: string): TokenPayload => {
   try {
     return jwt.verify(token, JWT_SECRET) as TokenPayload;
   } catch (error) {
     throw new Error("Invalid token");
+  }
+};
+
+export const verifyRefreshToken = (token: string): TokenPayload => {
+  try {
+    return jwt.verify(token, JWT_REFRESH_SECRET) as TokenPayload;
+  } catch (error) {
+    throw new Error("Invalid or expired refresh token");
   }
 };

@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { verifyToken } from "../utils/jwt.js";
+import { verifyAccessToken } from "../utils/jwt.js";
 import User from "../models/User.js";
 
 declare global {
@@ -28,7 +28,7 @@ export const authenticate = async (
     }
 
     // Verify token
-    const decoded = verifyToken(token);
+    const decoded = verifyAccessToken(token);
 
     // Get user from database
     const user = await User.findById(decoded.id);
