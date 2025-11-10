@@ -8,6 +8,7 @@ import {
   findRefreshToken,
   revokeRefreshToken,
 } from "../utils/token.js";
+import type mongoose from "mongoose";
 
 const router: Router = express.Router();
 
@@ -49,11 +50,14 @@ router.post(
 
       // Generate tokens
       const tokenPayload = {
-        id: user._id.toString(),
+        id: (user._id as mongoose.Types.ObjectId).toString(),
         email: user.email,
       };
       const accessToken = generateAccessToken(tokenPayload);
-      const refreshToken = await createRefreshToken(user._id, tokenPayload);
+      const refreshToken = await createRefreshToken(
+        user._id as mongoose.Types.ObjectId,
+        tokenPayload
+      );
 
       res.status(201).json({
         accessToken,
@@ -103,11 +107,14 @@ router.post(
 
       // Generate token
       const tokenPayload = {
-        id: user._id.toString(),
+        id: (user._id as mongoose.Types.ObjectId).toString(),
         email: user.email,
       };
       const accessToken = generateAccessToken(tokenPayload);
-      const refreshToken = await createRefreshToken(user._id, tokenPayload);
+      const refreshToken = await createRefreshToken(
+        user._id as mongoose.Types.ObjectId,
+        tokenPayload
+      );
 
       res.json({
         accessToken,
@@ -156,12 +163,15 @@ router.post(
       await revokeRefreshToken(refreshToken);
 
       const tokenPayload = {
-        id: user._id.toString(),
+        id: (user._id as mongoose.Types.ObjectId).toString(),
         email: user.email,
       };
 
       const newAccessToken = generateAccessToken(tokenPayload);
-      const newRefreshToken = await createRefreshToken(user._id, tokenPayload);
+      const newRefreshToken = await createRefreshToken(
+        user._id as mongoose.Types.ObjectId,
+        tokenPayload
+      );
 
       res.json({
         accessToken: newAccessToken,

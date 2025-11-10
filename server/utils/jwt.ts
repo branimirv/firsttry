@@ -13,17 +13,15 @@ export interface TokenPayload {
 }
 
 export const generateAccessToken = (payload: TokenPayload) => {
-  const options: SignOptions = {
-    expiresIn: ACCESS_TOKEN_EXPIRES_IN,
-  };
-  return jwt.sign(payload, JWT_SECRET, options);
+  return jwt.sign(payload, JWT_SECRET, {
+    expiresIn: ACCESS_TOKEN_EXPIRES_IN as string,
+  } as SignOptions);
 };
 
 export const generateRefreshToken = (payload: TokenPayload) => {
-  const options: SignOptions = {
-    expiresIn: REFRESH_TOKEN_EXPIRES_IN,
-  };
-  return jwt.sign(payload, JWT_REFRESH_SECRET, options);
+  return jwt.sign(payload, JWT_REFRESH_SECRET, {
+    expiresIn: REFRESH_TOKEN_EXPIRES_IN as string,
+  } as SignOptions);
 };
 
 export const verifyAccessToken = (token: string): TokenPayload => {
