@@ -3,12 +3,15 @@
  */
 export const STORAGE_KEYS = {
   AUTH_TOKEN: "authToken",
+  REFRESH_TOKEN: "refreshToken",
 } as const;
 
 export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: "/auth/login",
     REGISTRATION: "/auth/registration",
+    REFRESH: "/auth/refresh",
+    LOGOUT: "/auth/logout",
   },
   PROTECTED: "/protected",
 } as const;

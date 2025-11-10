@@ -1,4 +1,4 @@
-import crypto, { hash } from "crypto";
+import crypto from "crypto";
 import RefreshToken from "../models/RefreshToken.js";
 import type mongoose from "mongoose";
 import {
@@ -45,7 +45,7 @@ export const createRefreshToken = async (
  */
 export const findRefreshToken = async (
   token: string
-): Promise<typeof RefreshToken | null> => {
+): Promise<InstanceType<typeof RefreshToken> | null> => {
   const hashedToken = hashRefreshToken(token);
 
   verifyRefreshToken(token);

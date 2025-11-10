@@ -11,8 +11,17 @@ export interface User {
  * Auth response from API
  */
 export interface AuthResponse {
-  token: string;
+  accessToken: string;
+  refreshToken: string;
   user: User;
+}
+
+/**
+ * Refresh token response from API
+ */
+export interface RefreshTokenResponse {
+  accessToken: string;
+  refreshToken: string;
 }
 
 /**

@@ -176,7 +176,7 @@ router.post(
 
 // @route /api/auth/logout
 router.post(
-  "/loguout",
+  "/logout",
   [body("refreshToken").notEmpty().withMessage("Refresh token is required")],
   async (req: Request, res: Response) => {
     try {

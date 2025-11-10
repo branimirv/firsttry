@@ -49,7 +49,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
         credentials as LoginCredentials
       );
 
-      tokenStorage.set(response.data.token);
+      tokenStorage.setTokens(
+        response.data.accessToken,
+        response.data.refreshToken
+      );
 
       set({
         user: response.data.user,
@@ -65,16 +68,29 @@ export const useAuthStore = create<AuthStore>((set) => ({
     }
   },
   logout: async () => {
-    tokenStorage.remove();
-    set({
-      user: null,
-      isAuthenticated: false,
-      hasCheckedAuth: true,
-    });
+    try {
+      const refreshToken = tokenStorage.getRefreshToken();
+      if (refreshToken) {
+        try {
+          await api.post(API_ENDPOINTS.AUTH.LOGOUT, { refreshToken });
+        } catch (error) {
+          console.error("logout endpoint error:", error);
+        }
+      }
+    } catch (error) {
+      console.log("error:", error);
+    } finally {
+      tokenStorage.removeTokens();
+      set({
+        user: null,
+        isAuthenticated: false,
+        hasCheckedAuth: true,
+      });
+    }
   },
   checkAuth: async () => {
-    const token = tokenStorage.get();
-    if (!token) {
+    const accessToken = tokenStorage.getAccessToken();
+    if (!accessToken) {
       set({ user: null, isAuthenticated: false, hasCheckedAuth: true });
       return;
     }
@@ -90,7 +106,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
         hasCheckedAuth: true,
       });
     } catch (error) {
-      tokenStorage.remove();
+      tokenStorage.removeTokens();
       set({
         isAuthenticated: false,
         user: null,
@@ -108,7 +124,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
         data
       );
 
-      tokenStorage.set(response.data.token);
+      tokenStorage.setTokens(
+        response.data.accessToken,
+        response.data.refreshToken
+      );
 
       set({
         user: response.data.user,
