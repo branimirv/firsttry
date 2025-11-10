@@ -7,6 +7,7 @@ import dashboardRoute from "./routes/dashboard";
 import indexRoute from "./routes/index";
 import loginRoute from "./routes/login";
 import registrationRoute from "./routes/registration";
+import { Toaster } from "@/components/ui/sonner";
 
 // create a root route
 export const rootRoute = createRootRoute({
@@ -17,6 +18,7 @@ export const rootRoute = createRootRoute({
         <AuthBootstrap />
         <Outlet />
         <Footer />
+        <Toaster position="top-center" />
       </div>
       <TanStackRouterDevtools />
     </>

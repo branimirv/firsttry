@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/lib/constants";
 import { useAuthStore } from "@/store/authStore";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 const Header = () => {
   const { isAuthenticated, user, logout } = useAuthStore();
@@ -10,6 +11,7 @@ const Header = () => {
   const handleLogout = () => {
     logout();
     navigate({ to: ROUTES.HOME });
+    toast("You signed out!");
   };
 
   return (
