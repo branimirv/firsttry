@@ -6,7 +6,7 @@ import { ROUTES } from "@/lib/constants";
 const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: ROUTES.DASHBOARD,
-  component: Dashboard,
+  component: () => <Dashboard />,
 });
 
 export default dashboardRoute;

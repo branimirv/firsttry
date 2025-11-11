@@ -6,10 +6,12 @@ const Dashboard = () => {
 
   return (
     <AuthGuard>
-      <div className="max-w-[1200px] mx-auto p-8">
-        <h1>Dashboard</h1>
-        <p>Welcome, {user?.name}</p>
-        <p>This is protected route.</p>
+      <div className="max-w-[1200px] mx-auto p-8 d-flex flex-col">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Welcome, {user?.name}</p>
+          <p>This is protected route.</p>
+        </div>
       </div>
     </AuthGuard>
   );

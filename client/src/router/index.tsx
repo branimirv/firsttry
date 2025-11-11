@@ -18,7 +18,7 @@ export const rootRoute = createRootRoute({
         <AuthBootstrap />
         <Outlet />
         <Footer />
-        <Toaster position="top-center" />
+        <Toaster />
       </div>
       <TanStackRouterDevtools />
     </>

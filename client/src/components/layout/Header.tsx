@@ -11,7 +11,7 @@ const Header = () => {
   const handleLogout = () => {
     logout();
     navigate({ to: ROUTES.HOME });
-    toast("You signed out!");
+    toast("You signed out!", { duration: 1000, position: "top-center" });
   };
 
   return (
@@ -22,7 +22,7 @@ const Header = () => {
       <div>
         {isAuthenticated ? (
           <>
-            <span>Hello, {user?.name}</span>
+            <span className="mr-2">Hello, {user?.name}</span>
             <Button
               onClick={handleLogout}
               variant="outline"
@@ -32,7 +32,7 @@ const Header = () => {
             </Button>
           </>
         ) : (
-          <>
+          <div className="space-x-2">
             <Link to={ROUTES.LOGIN}>
               <Button variant="outline" className="cursor-pointer">
                 Login
@@ -41,7 +41,7 @@ const Header = () => {
             <Link to={ROUTES.REGISTRATION}>
               <Button className="cursor-pointer">Register</Button>
             </Link>
-          </>
+          </div>
         )}
       </div>
     </header>

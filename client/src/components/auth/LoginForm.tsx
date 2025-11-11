@@ -1,3 +1,8 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Form, FormMessage } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import { ROUTES } from "@/lib/constants";
 import { extractErrorMessage } from "@/lib/errors";
 import { loginSchema, type LoginSchema } from "@/lib/validation/auth";
@@ -5,9 +10,7 @@ import { useAuthStore } from "@/store/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Form, FormMessage } from "../ui/form";
+import { toast } from "sonner";
 import { FormFieldWrapper } from "./FormFieldWrapper";
 
 const LoginForm = () => {
@@ -26,6 +29,10 @@ const LoginForm = () => {
     try {
       await login(values);
       navigate({ to: ROUTES.DASHBOARD });
+      toast.success("You successfully logged in!", {
+        position: "top-center",
+        duration: 2000,
+      });
     } catch (error: unknown) {
       const errorMessage = extractErrorMessage(
         error,
@@ -60,6 +67,11 @@ const LoginForm = () => {
               placeholder="Enter your password"
               autoComplete="password"
             />
+
+            <div className="flex items-center gap-2">
+              <Checkbox id="remember-me" />
+              <Label htmlFor="remember-me">Remember me</Label>
+            </div>
 
             {form.formState.errors.root && (
               <FormMessage className="text-destructive text-sm">
