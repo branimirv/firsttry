@@ -44,14 +44,17 @@ export const useAuthStore = create<AuthStore>((set) => ({
   login: async (credentials: LoginCredentials) => {
     set({ isLoading: true });
     try {
+      const { rememberMe, ...credentialsForApi } = credentials;
+
       const response = await api.post<AuthResponse>(
         API_ENDPOINTS.AUTH.LOGIN,
-        credentials as LoginCredentials
+        credentialsForApi
       );
 
       tokenStorage.setTokens(
         response.data.accessToken,
-        response.data.refreshToken
+        response.data.refreshToken,
+        rememberMe ?? false
       );
 
       set({

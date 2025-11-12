@@ -22,12 +22,17 @@ const LoginForm = () => {
     defaultValues: {
       email: "",
       password: "",
+      rememberMe: false,
     },
   });
 
   const onSubmit = async (values: LoginSchema) => {
     try {
-      await login(values);
+      await login({
+        email: values.email,
+        password: values.password,
+        rememberMe: values.rememberMe,
+      });
       navigate({ to: ROUTES.DASHBOARD });
       toast.success("You successfully logged in!", {
         position: "top-center",
@@ -69,7 +74,13 @@ const LoginForm = () => {
             />
 
             <div className="flex items-center gap-2">
-              <Checkbox id="remember-me" />
+              <Checkbox
+                id="remember-me"
+                checked={form.watch("rememberMe") as boolean}
+                onCheckedChange={(checked) => {
+                  form.setValue("rememberMe", checked as boolean);
+                }}
+              />
               <Label htmlFor="remember-me">Remember me</Label>
             </div>
 
