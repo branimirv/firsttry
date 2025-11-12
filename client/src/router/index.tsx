@@ -1,13 +1,14 @@
 import AuthBootstrap from "@/components/auth/AuthBootstrap";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import { Toaster } from "@/components/ui/sonner";
 import { createRootRoute, createRouter, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import dashboardRoute from "./routes/dashboard";
+import forgotPasswordRoute from "./routes/forgot-password";
 import indexRoute from "./routes/index";
 import loginRoute from "./routes/login";
 import registrationRoute from "./routes/registration";
-import { Toaster } from "@/components/ui/sonner";
 
 // create a root route
 export const rootRoute = createRootRoute({
@@ -32,6 +33,7 @@ export const router = createRouter({
     loginRoute,
     dashboardRoute,
     registrationRoute,
+    forgotPasswordRoute,
   ]),
 });
 

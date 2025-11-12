@@ -8,7 +8,7 @@ import { extractErrorMessage } from "@/lib/errors";
 import { loginSchema, type LoginSchema } from "@/lib/validation/auth";
 import { useAuthStore } from "@/store/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { FormFieldWrapper } from "./FormFieldWrapper";
@@ -82,6 +82,15 @@ const LoginForm = () => {
                 }}
               />
               <Label htmlFor="remember-me">Remember me</Label>
+            </div>
+
+            <div>
+              <Link
+                to={ROUTES.FORGOT_PASSWORD}
+                className="text-sm text-primary hover:underline"
+              >
+                Forgot password?
+              </Link>
             </div>
 
             {form.formState.errors.root && (

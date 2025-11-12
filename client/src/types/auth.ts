@@ -41,3 +41,10 @@ export interface RegistrationData {
   email: string;
   password: string;
 }
+
+/**
+ * Forgot password data
+ */
+export interface ForgotPasswordData {
+  email: string;
+}

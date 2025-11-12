@@ -1,5 +1,5 @@
 import { createRoute } from "@tanstack/react-router";
-import Dashboard from "../../components/pages/Dashboard";
+import Dashboard from "@/components/pages/Dashboard";
 import { rootRoute } from "../index";
 import { ROUTES } from "@/lib/constants";
 

@@ -145,4 +145,18 @@ export const useAuthStore = create<AuthStore>((set) => ({
       throw new Error(errorMessage);
     }
   },
+  resetPassword: async (email: string) => {
+    set({ isLoading: true });
+    try {
+      await api.post(API_ENDPOINTS.AUTH.FORGOT_PASSWORD, { email });
+      set({ isLoading: false });
+    } catch (error) {
+      const errorMessage = extractErrorMessage(
+        error,
+        "Failed to send password reset email. Please try again"
+      );
+      set({ isLoading: false });
+      throw new Error(errorMessage);
+    }
+  },
 }));
