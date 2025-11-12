@@ -201,4 +201,37 @@ router.post(
   }
 );
 
+// @route   POST /api/auth/forgot-password
+// @desc    Send password reset email
+// @access  Public
+router.post(
+  "/forgot-password",
+  [body("email").isEmail().withMessage("Please provide a valid email")],
+  async (req: Request, res: Response) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { email } = req.body;
+
+      const user = await User.findOne({ email });
+
+      if (user) {
+        // TODO: Generate reset token and send email
+        console.log("Password reset requested for" + email);
+      }
+
+      res.json({
+        message:
+          "If an account exist with that email, a password reset link has been sent",
+      });
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      res.status(500).json({ message: "server error" });
+    }
+  }
+);
+
 export default router;
