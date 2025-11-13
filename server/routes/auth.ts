@@ -218,6 +218,12 @@ router.post(
 
       const user = await User.findOne({ email });
 
+      // Always return success for security (don't reveal if email exists)
+      // In production, you would:
+      // 1. Generate a reset token
+      // 2. Store it in DB with expiration
+      // 3. Send email with reset link
+
       if (user) {
         // TODO: Generate reset token and send email
         console.log("Password reset requested for" + email);
