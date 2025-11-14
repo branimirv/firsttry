@@ -48,3 +48,11 @@ export interface RegistrationData {
 export interface ForgotPasswordData {
   email: string;
 }
+
+/**
+ * Reset password data
+ */
+export interface ResetPasswordData {
+  token: string;
+  password: string;
+}

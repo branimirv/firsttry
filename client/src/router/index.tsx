@@ -9,6 +9,7 @@ import forgotPasswordRoute from "./routes/forgot-password";
 import indexRoute from "./routes/index";
 import loginRoute from "./routes/login";
 import registrationRoute from "./routes/registration";
+import resetPasswordRoute from "./routes/reset-password";
 
 // create a root route
 export const rootRoute = createRootRoute({
@@ -34,6 +35,7 @@ export const router = createRouter({
     dashboardRoute,
     registrationRoute,
     forgotPasswordRoute,
+    resetPasswordRoute,
   ]),
 });
 

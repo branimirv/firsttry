@@ -4,6 +4,7 @@ import type {
   AuthResponse,
   LoginCredentials,
   RegistrationData,
+  ResetPasswordData,
 } from "@/types/auth";
 import { API_ENDPOINTS } from "@/lib/constants";
 import { tokenStorage } from "@/lib/storage";
@@ -24,6 +25,7 @@ interface AuthStore {
   checkAuth: () => Promise<void>;
   register: (data: RegistrationData) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
+  resetPasswordWithToken: (data: ResetPasswordData) => Promise<void>;
   hasCheckedAuth: boolean;
 }
 
@@ -37,6 +39,7 @@ const initialState: AuthStore = {
   checkAuth: async () => {},
   register: async () => {},
   resetPassword: async () => {},
+  resetPasswordWithToken: async () => {},
 };
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -154,6 +157,20 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const errorMessage = extractErrorMessage(
         error,
         "Failed to send password reset email. Please try again"
+      );
+      set({ isLoading: false });
+      throw new Error(errorMessage);
+    }
+  },
+  resetPasswordWithToken: async (data: ResetPasswordData) => {
+    set({ isLoading: true });
+    try {
+      await api.post(API_ENDPOINTS.AUTH.RESET_PASSWORD, data);
+      set({ isLoading: false });
+    } catch (error) {
+      const errorMessage = extractErrorMessage(
+        error,
+        "Failed to reset password. Please try again"
       );
       set({ isLoading: false });
       throw new Error(errorMessage);

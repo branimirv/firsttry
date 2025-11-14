@@ -13,6 +13,7 @@ export const API_ENDPOINTS = {
     REFRESH: "/auth/refresh",
     LOGOUT: "/auth/logout",
     FORGOT_PASSWORD: "/auth/forgot-password",
+    RESET_PASSWORD: "/auth/reset-password",
   },
   PROTECTED: "/protected",
 } as const;
@@ -23,4 +24,5 @@ export const ROUTES = {
   REGISTRATION: "/registration",
   DASHBOARD: "/dashboard",
   FORGOT_PASSWORD: "/forgot-password",
+  RESET_PASSWORD: "/reset-password",
 } as const;
