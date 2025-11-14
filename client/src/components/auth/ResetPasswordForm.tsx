@@ -77,7 +77,7 @@ const ResetPasswordForm = () => {
   }
 
   return (
-    <Card>
+    <Card className="w-full max-w-md mx-auto border p-4 rounded-md">
       <CardHeader>
         <CardTitle className="text-center">Reset Password</CardTitle>
       </CardHeader>
