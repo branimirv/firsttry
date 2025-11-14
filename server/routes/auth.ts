@@ -1,14 +1,20 @@
 import express, { Router, type Request, type Response } from "express";
 import { body, validationResult } from "express-validator";
+import type mongoose from "mongoose";
 import User from "../models/User.js";
-import { comparePassword, hashPassword } from "../utils/password.js";
 import { generateAccessToken } from "../utils/jwt.js";
+import { comparePassword, hashPassword } from "../utils/password.js";
+import {
+  createPasswordReseetToken,
+  findPasswordResetToken,
+  revokeAllUserResetTokens,
+  revokePasswordResetToken,
+} from "../utils/passwordReset.js";
 import {
   createRefreshToken,
   findRefreshToken,
   revokeRefreshToken,
 } from "../utils/token.js";
-import type mongoose from "mongoose";
 
 const router: Router = express.Router();
 
@@ -226,7 +232,17 @@ router.post(
 
       if (user) {
         // TODO: Generate reset token and send email
-        console.log("Password reset requested for" + email);
+        await revokeAllUserResetTokens(user._id as mongoose.Types.ObjectId);
+
+        // generate new token
+        const resetToken = await createPasswordReseetToken(
+          user._id as mongoose.Types.ObjectId
+        );
+
+        console.log(`Password reset token for ${email}: $ ${resetToken}`);
+        console.log(
+          `Reset URL: ${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`
+        );
       }
 
       res.json({
@@ -236,6 +252,58 @@ router.post(
     } catch (error) {
       console.error("Forgot password error:", error);
       res.status(500).json({ message: "server error" });
+    }
+  }
+);
+
+// @route POST /api/auth/reset-password
+// @desc Reset password with token
+// @access Public
+router.post(
+  "/reset-password",
+  [
+    body("token").notEmpty().withMessage("Reset token is required."),
+    body("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters"),
+  ],
+  async (req: Request, res: Response) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      const { token, password } = req.body;
+
+      // find and verify the reset token
+      const resetToken = await findPasswordResetToken(token);
+
+      if (!resetToken) {
+        return res
+          .status(400)
+          .json({ message: "Invalid or expired reset token" });
+      }
+
+      // Get the user
+      const user = await User.findById(resetToken.userId);
+      if (!user) {
+        return res.status(400).json({ message: "User not found" });
+      }
+
+      // hash the new password
+      const hashedPassword = await hashPassword(password);
+
+      // update user password
+      user.password = hashedPassword;
+      await user.save();
+
+      // revoke the reset token (one-time use)
+      await revokePasswordResetToken(token);
+
+      res.json({ message: "Password has been reset successfully" });
+    } catch (error) {
+      console.error("Reset password error:", error);
+      res.status(500).json({ message: "Server error" });
     }
   }
 );
