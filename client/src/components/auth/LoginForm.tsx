@@ -75,13 +75,16 @@ const LoginForm = () => {
 
             <div className="flex items-center gap-2">
               <Checkbox
+                className="cursor-pointer"
                 id="remember-me"
                 checked={form.watch("rememberMe") as boolean}
                 onCheckedChange={(checked) => {
                   form.setValue("rememberMe", checked as boolean);
                 }}
               />
-              <Label htmlFor="remember-me">Remember me</Label>
+              <Label htmlFor="remember-me" className="cursor-pointer">
+                Remember me
+              </Label>
             </div>
 
             <div>

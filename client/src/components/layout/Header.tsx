@@ -4,6 +4,14 @@ import { ROUTES } from "@/lib/constants";
 import { useAuthStore } from "@/store/authStore";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+} from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { getInitials } from "@/lib/utils";
 
 const Header = () => {
   const { isAuthenticated, user, logout } = useAuthStore();
@@ -22,14 +30,33 @@ const Header = () => {
       <div>
         {isAuthenticated ? (
           <>
-            <span className="mr-2">Hello, {user?.name}</span>
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              className="cursor-pointer"
-            >
-              Logout
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <div className="flex gap-2 items-center">
+                  <Avatar className="h-8 w-8 rounded-lg">
+                    <AvatarImage src={user?.avatar} alt={user?.name} />
+                    <AvatarFallback className="rounded-lg">
+                      {getInitials(user?.name)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>{user?.name}</div>
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Billing</DropdownMenuItem>
+                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Button
+                    onClick={handleLogout}
+                    variant="outline"
+                    className="cursor-pointer"
+                  >
+                    Logout
+                  </Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </>
         ) : (
           <div className="space-x-2">
