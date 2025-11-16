@@ -31,7 +31,7 @@ const Header = () => {
         {isAuthenticated ? (
           <>
             <DropdownMenu>
-              <DropdownMenuTrigger>
+              <DropdownMenuTrigger className="cursor-pointer">
                 <div className="flex gap-2 items-center">
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarImage src={user?.avatar} alt={user?.name} />

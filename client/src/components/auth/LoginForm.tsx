@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormMessage } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
@@ -12,6 +11,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { FormFieldWrapper } from "./FormFieldWrapper";
+import AuthCard from "./AuthCard";
 
 const LoginForm = () => {
   const { isLoading, login } = useAuthStore();
@@ -48,71 +48,66 @@ const LoginForm = () => {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto border p-4 rounded-md">
-      <CardHeader>
-        <CardTitle className="text-center">Login</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormFieldWrapper
-              control={form.control}
-              name="email"
-              label="Email"
-              type="email"
-              placeholder="Enter your email"
-              autoComplete="email"
+    <AuthCard title="Login">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormFieldWrapper
+            control={form.control}
+            name="email"
+            label="Email"
+            type="email"
+            placeholder="Enter your email"
+            autoComplete="email"
+          />
+
+          <FormFieldWrapper
+            control={form.control}
+            name="password"
+            label="Password"
+            type="password"
+            placeholder="Enter your password"
+            autoComplete="password"
+          />
+
+          <div className="flex items-center gap-2">
+            <Checkbox
+              className="cursor-pointer"
+              id="remember-me"
+              checked={form.watch("rememberMe") as boolean}
+              onCheckedChange={(checked) => {
+                form.setValue("rememberMe", checked as boolean);
+              }}
             />
+            <Label htmlFor="remember-me" className="cursor-pointer">
+              Remember me
+            </Label>
+          </div>
 
-            <FormFieldWrapper
-              control={form.control}
-              name="password"
-              label="Password"
-              type="password"
-              placeholder="Enter your password"
-              autoComplete="password"
-            />
-
-            <div className="flex items-center gap-2">
-              <Checkbox
-                className="cursor-pointer"
-                id="remember-me"
-                checked={form.watch("rememberMe") as boolean}
-                onCheckedChange={(checked) => {
-                  form.setValue("rememberMe", checked as boolean);
-                }}
-              />
-              <Label htmlFor="remember-me" className="cursor-pointer">
-                Remember me
-              </Label>
-            </div>
-
-            <div>
-              <Link
-                to={ROUTES.FORGOT_PASSWORD}
-                className="text-sm text-primary hover:underline"
-              >
-                Forgot password?
-              </Link>
-            </div>
-
-            {form.formState.errors.root && (
-              <FormMessage className="text-destructive text-sm">
-                {form.formState.errors.root.message}
-              </FormMessage>
-            )}
-
-            <Button
-              type="submit"
-              className="w-full cursor-pointer"
-              disabled={isLoading}
+          <div>
+            <Link
+              to={ROUTES.FORGOT_PASSWORD}
+              className="text-sm text-primary hover:underline"
             >
-              {isLoading ? "Logging in..." : "Login"}
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+              Forgot password?
+            </Link>
+          </div>
+
+          {form.formState.errors.root && (
+            <FormMessage className="text-destructive text-sm">
+              {form.formState.errors.root.message}
+            </FormMessage>
+          )}
+
+          <Button
+            type="submit"
+            className="w-full cursor-pointer"
+            disabled={isLoading}
+          >
+            {isLoading ? "Logging in..." : "Login"}
+          </Button>
+        </form>
+      </Form>
+    </AuthCard>
   );
 };
 
