@@ -15,7 +15,7 @@ import resetPasswordRoute from "./routes/reset-password";
 export const rootRoute = createRootRoute({
   component: () => (
     <>
-      <div>
+      <div className="flex flex-col min-h-screen">
         <Header />
         <AuthBootstrap />
         <Outlet />

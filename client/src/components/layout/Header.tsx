@@ -23,7 +23,7 @@ const Header = () => {
   };
 
   return (
-    <header className="max-w-[1200px] mx-auto p-4 flex items-center justify-between">
+    <header className="w-full max-w-[1200px] mx-auto p-4 flex items-center justify-between">
       <Link to={ROUTES.HOME}>
         <img src={logo} alt="Logo" className="h-8" />
       </Link>
