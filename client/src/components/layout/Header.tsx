@@ -46,14 +46,11 @@ const Header = () => {
                 <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem>Billing</DropdownMenuItem>
                 <DropdownMenuItem>Team</DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Button
-                    onClick={handleLogout}
-                    variant="outline"
-                    className="cursor-pointer"
-                  >
-                    Logout
-                  </Button>
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="cursor-pointer"
+                >
+                  Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
