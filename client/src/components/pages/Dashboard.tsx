@@ -10,7 +10,6 @@ const Dashboard = () => {
         <div>
           <h1>Dashboard</h1>
           <p>Welcome, {user?.name}</p>
-          <p>This is protected route.</p>
         </div>
       </div>
     </AuthGuard>
