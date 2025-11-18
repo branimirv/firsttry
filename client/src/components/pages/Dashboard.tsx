@@ -6,7 +6,7 @@ const Dashboard = () => {
 
   return (
     <AuthGuard>
-      <div className="max-w-[1200px] mx-auto p-8 d-flex flex-col">
+      <div className="max-w-[1200px] w-full flex-1 mx-auto p-4 d-flex flex-col">
         <div>
           <h1>Dashboard</h1>
           <p>Welcome, {user?.name}</p>
