@@ -24,7 +24,7 @@ export const register = async (req: Request, res: Response) => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "User alreeday exists" });
+      return res.status(400).json({ message: "User alreday exists" });
     }
 
     // Hash password
@@ -58,7 +58,7 @@ export const register = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    console.error("reigster error:", error);
+    console.error("register error:", error);
     res.status(500).json({ message: "server error" });
   }
 };
@@ -109,7 +109,7 @@ export const login = async (req: Request, res: Response) => {
 };
 
 /**
- * Refresh acces token
+ * Refresh access token
  */
 export const refresh = async (req: Request, res: Response) => {
   try {
@@ -207,7 +207,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
 };
 
 /**
- * Reset oassword with token
+ * Reset password with token
  */
 export const resetPassword = async (req: Request, res: Response) => {
   try {
