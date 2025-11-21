@@ -18,6 +18,7 @@ import {
   ConflictError,
   AuthenticationError,
   NotFoundError,
+  ValidationError,
 } from "../utils/error.js";
 
 /**

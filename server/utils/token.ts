@@ -15,7 +15,7 @@ export const hashRefreshToken = (token: string): string => {
 };
 
 /**
- * Create and store a refersh token for a user
+ * Create and store a refresh token for a user
  */
 export const createRefreshToken = async (
   userId: mongoose.Types.ObjectId,
@@ -46,16 +46,23 @@ export const createRefreshToken = async (
 export const findRefreshToken = async (
   token: string
 ): Promise<InstanceType<typeof RefreshToken> | null> => {
-  const hashedToken = hashRefreshToken(token);
+  try {
+    // Verify token signature first (will throw AuthenticationError if invalid)
+    verifyRefreshToken(token);
 
-  verifyRefreshToken(token);
+    const hashedToken = hashRefreshToken(token);
 
-  const storedToken = await RefreshToken.findOne({
-    token: hashedToken,
-    expiresAt: { $gt: new Date() },
-  }).populate("userId");
+    const storedToken = await RefreshToken.findOne({
+      token: hashedToken,
+      expiresAt: { $gt: new Date() },
+    }).populate("userId");
 
-  return storedToken;
+    return storedToken;
+  } catch (error) {
+    // Re-throw AuthenticationError from verifyRefreshToken
+    // or handle other errors if needed
+    throw error;
+  }
 };
 
 /**

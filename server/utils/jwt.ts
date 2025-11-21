@@ -1,4 +1,5 @@
 import jwt, { type SignOptions } from "jsonwebtoken";
+import { AuthenticationError } from "./error.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-key";
 const JWT_REFRESH_SECRET =
@@ -28,7 +29,7 @@ export const verifyAccessToken = (token: string): TokenPayload => {
   try {
     return jwt.verify(token, JWT_SECRET) as TokenPayload;
   } catch (error) {
-    throw new Error("Invalid token");
+    throw new AuthenticationError("Invalid token");
   }
 };
 
@@ -36,6 +37,6 @@ export const verifyRefreshToken = (token: string): TokenPayload => {
   try {
     return jwt.verify(token, JWT_REFRESH_SECRET) as TokenPayload;
   } catch (error) {
-    throw new Error("Invalid or expired refresh token");
+    throw new AuthenticationError("Invalid or expired refresh token");
   }
 };

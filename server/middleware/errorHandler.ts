@@ -8,7 +8,7 @@ interface ErrorResponse {
   success: false;
   error: {
     message: string;
-    ...(process.env.NODE_ENV === "development" && { stack?: string });
+    stack?: string; // Optional stack trace
   };
 }
 
@@ -36,13 +36,9 @@ export const errorHandler = (
       success: false,
       error: {
         message: err.message,
+        ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
       },
     };
-
-    // Include stack trace in development
-    if (process.env.NODE_ENV === "development") {
-      response.error.stack = err.stack;
-    }
 
     return res.status(err.statusCode).json(response);
   }
@@ -51,15 +47,13 @@ export const errorHandler = (
   const response: ErrorResponse = {
     success: false,
     error: {
-      message: process.env.NODE_ENV === "production" 
-        ? "Internal server error" 
-        : err.message,
+      message:
+        process.env.NODE_ENV === "production"
+          ? "Internal server error"
+          : err.message,
+      ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
     },
   };
-
-  if (process.env.NODE_ENV === "development") {
-    response.error.stack = err.stack;
-  }
 
   res.status(500).json(response);
 };
