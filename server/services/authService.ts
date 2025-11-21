@@ -14,6 +14,11 @@ import {
 } from "../utils/token.js";
 import type { AuthResponse, RefreshResponse } from "../types/auth.js";
 import * as userService from "./userService.js";
+import {
+  ConflictError,
+  AuthenticationError,
+  NotFoundError,
+} from "../utils/error.js";
 
 /**
  * Register a new user
@@ -26,7 +31,7 @@ export const registerUser = async (
   // Check if user already exists
   const existingUser = await userService.findUserByEmail(email);
   if (existingUser) {
-    throw new Error("User already exists");
+    throw new ConflictError("User already exists");
   }
 
   // Hash password
@@ -71,13 +76,13 @@ export const loginUser = async (
   // Find user by email and include password
   const user = await userService.findUserByEmailWithPassword(email);
   if (!user) {
-    throw new Error("Invalid credentials");
+    throw new AuthenticationError("Invalid credentials");
   }
 
   // Compare password
   const isMatch = await comparePassword(password, user.password);
   if (!isMatch) {
-    throw new Error("Invalid credentials");
+    throw new AuthenticationError("Invalid credentials");
   }
 
   // Generate tokens
@@ -111,12 +116,12 @@ export const refreshTokens = async (
   const storedToken = await findRefreshToken(refreshToken);
 
   if (!storedToken) {
-    throw new Error("Invalid or expired refresh token");
+    throw new AuthenticationError("Invalid or expired refresh token");
   }
 
   const user = await userService.findUserById(storedToken.userId);
   if (!user) {
-    throw new Error("User not found");
+    throw new NotFoundError("User not found");
   }
 
   // Revoke old refresh token
@@ -188,7 +193,7 @@ export const resetUserPassword = async (
   // Get the user
   const user = await userService.findUserById(resetToken.userId);
   if (!user) {
-    throw new Error("User not found");
+    throw new ValidationError("Invalid or expired reset token");
   }
 
   // Hash the new password

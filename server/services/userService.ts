@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import User, { type IUser } from "../models/User.js";
+import { NotFoundError } from "../utils/error.js";
 
 /**
  * Data required to create a new user
@@ -67,7 +68,7 @@ export const updateUserPassword = async (
   const objectId = toObjectId(userId);
   const user = await User.findById(objectId);
   if (!user) {
-    throw new Error("User not found");
+    throw new NotFoundError("User not found");
   }
 
   user.password = hashedPassword;
