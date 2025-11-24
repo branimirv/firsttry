@@ -19,7 +19,7 @@ export const generatePasswordResetToken = (): string => {
 /**
  * Create and store a password reset token for a user
  */
-export const createPasswordReseetToken = async (
+export const createPasswordResetToken = async (
   userId: mongoose.Types.ObjectId
 ): Promise<string> => {
   // Generate random token

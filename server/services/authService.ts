@@ -2,7 +2,7 @@ import type mongoose from "mongoose";
 import { generateAccessToken, type TokenPayload } from "../utils/jwt.js";
 import { comparePassword, hashPassword } from "../utils/password.js";
 import {
-  createPasswordReseetToken,
+  createPasswordResetToken,
   findPasswordResetToken,
   revokeAllUserResetTokens,
   revokePasswordResetToken,
@@ -165,7 +165,7 @@ export const initiatePasswordReset = async (email: string): Promise<void> => {
     await revokeAllUserResetTokens(user._id as mongoose.Types.ObjectId);
 
     // Generate new reset token
-    const resetToken = await createPasswordReseetToken(
+    const resetToken = await createPasswordResetToken(
       user._id as mongoose.Types.ObjectId
     );
 
