@@ -18,7 +18,7 @@ export interface UseRequireAuthReturn {
   isLoading: boolean;
 }
 
-export const UseRequireAuth = (
+export const useRequireAuth = (
   options: UseRequireAuthOptions = {}
 ): UseRequireAuthReturn => {
   const { redirectToLogin = true, redirectRoute = ROUTES.LOGIN } = options;
