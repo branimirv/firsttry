@@ -1,13 +1,7 @@
-import { useAuthStore } from "@/store/authStore";
-import { useEffect } from "react";
+import { useAuthBootstrap } from "@/hooks/auth";
 
 const AuthBootstrap = () => {
-  const checkAuth = useAuthStore((state) => state.checkAuth);
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
-
+  useAuthBootstrap();
   return null;
 };
 

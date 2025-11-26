@@ -1,35 +1,26 @@
-import { useAuthStore } from "@/store/authStore";
-import { useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { LoadingPage } from "../loaders/loading";
-import { ROUTES } from "@/lib/constants";
+import { useRequireAuth } from "@/hooks/auth";
 
 interface AuthGuardProps {
   children: React.ReactNode;
+  redirectRoute?: string;
 }
 
-const AuthGuard = ({ children }: AuthGuardProps) => {
-  const { isAuthenticated, isLoading, hasCheckedAuth, checkAuth } =
-    useAuthStore();
-  const navigate = useNavigate();
+const AuthGuard = ({ children, redirectRoute }: AuthGuardProps) => {
+  const { status } = useRequireAuth({
+    redirectToLogin: true,
+    redirectRoute,
+  });
 
-  useEffect(() => {
-    if (!hasCheckedAuth) checkAuth();
-  }, [checkAuth, hasCheckedAuth]);
-
-  useEffect(() => {
-    if (hasCheckedAuth && !isAuthenticated && !isLoading) {
-      navigate({ to: ROUTES.LOGIN, replace: true });
-    }
-  }, [hasCheckedAuth, isAuthenticated, isLoading, navigate]);
-
-  if (isLoading || !hasCheckedAuth) {
+  if (status === "loading") {
     return <LoadingPage />;
   }
 
-  if (!isAuthenticated) return null;
+  if (status === "unauthorized") {
+    return null;
+  }
 
-  return children;
+  return <>{children}</>;
 };
 
 export default AuthGuard;
