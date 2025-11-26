@@ -3,6 +3,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useAuthBootstrap } from "./useAuthBootstrap";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
+import type { User } from "@/types/auth";
 
 export type AuthStatus = "loading" | "unauthorized" | "authorized";
 
@@ -14,7 +15,7 @@ export interface UseRequireAuthOptions {
 export interface UseRequireAuthReturn {
   status: AuthStatus;
   isAuthenticated: boolean;
-  user: ReturnType<typeof useAuthStore>["user"];
+  user: User | null;
   isLoading: boolean;
 }
 
