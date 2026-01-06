@@ -1,5 +1,6 @@
 import AuthGuard from "@/components/auth/AuthGuard";
 import { useAuthStore } from "@/store/authStore";
+import CreateEventDialog from "../events/CreateEventDialog";
 
 const Dashboard = () => {
   const { user } = useAuthStore();
@@ -11,6 +12,7 @@ const Dashboard = () => {
           <h1>Dashboard</h1>
           <p>Welcome, {user?.name}</p>
         </div>
+        <CreateEventDialog />
       </div>
     </AuthGuard>
   );

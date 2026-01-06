@@ -16,6 +16,13 @@ export const API_ENDPOINTS = {
     RESET_PASSWORD: "/auth/reset-password",
   },
   PROTECTED: "/protected",
+  EVENTS: {
+    CREATE: "/events",
+    LIST: "/events",
+    GET_BY_ID: (id: string) => `/events/${id}`,
+    UPDATE: (id: string) => `/events/${id}`,
+    DELETE: (id: string) => `/events/${id}`,
+  },
 } as const;
 
 export const ROUTES = {
