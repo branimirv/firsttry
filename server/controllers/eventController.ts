@@ -7,13 +7,15 @@ import { asyncHandler } from "../middleware/errorHandler.js";
  */
 export const createSportEvent = asyncHandler(
   async (req: Request, res: Response) => {
-    const { name, sport, maxParticipants } = req.body;
+    const { name, sport, maxParticipants, startTime, endTime } = req.body;
     const userId = req.user!.id;
 
     const result = await eventService.createSportEvent(
       name,
       sport,
       maxParticipants,
+      startTime,
+      endTime,
       userId
     );
     res.status(201).json(result);

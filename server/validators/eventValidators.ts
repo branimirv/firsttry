@@ -24,6 +24,29 @@ export const createEventValidators = [
     .withMessage("Maximum participants is required")
     .isInt({ min: 2, max: 100 })
     .withMessage("Maximum participants must be between 2 and 100"),
+
+  body("startTime")
+    .notEmpty()
+    .withMessage("Start time is required")
+    .isISO8601()
+    .withMessage("Start time must be a valid date"),
+
+  body("endTime")
+    .notEmpty()
+    .withMessage("End time is required")
+    .isISO8601()
+    .withMessage("End time must be a valid date")
+    .custom((endTime, { req }) => {
+      // Custom validator to check if end time is after start time
+      const start = new Date(req.body.startTime);
+      const end = new Date(endTime);
+
+      if (end <= start) {
+        throw new Error("End time must be after start time");
+      }
+
+      return true;
+    }),
 ];
 
 /**
@@ -48,6 +71,28 @@ export const updateEventValidators = [
     .optional()
     .isInt({ min: 2, max: 100 })
     .withMessage("Maximum participants must be between 2 and 100"),
+
+  body("startTime")
+    .optional()
+    .isISO8601()
+    .withMessage("Start time must be a valid date"),
+
+  body("endTime")
+    .optional()
+    .isISO8601()
+    .withMessage("End time must be a valid date")
+    .custom((endTime, { req }) => {
+      // Only validate if both times are provided
+      if (endTime && req.body.startTime) {
+        const start = new Date(req.body.startTime);
+        const end = new Date(endTime);
+
+        if (end <= start) {
+          throw new Error("End time must be after start time");
+        }
+      }
+      return true;
+    }),
 ];
 
 /**

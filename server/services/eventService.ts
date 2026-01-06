@@ -6,6 +6,8 @@ import { AppError } from "../utils/error.js";
  * @param name - The name of the event
  * @param sport - The type of sport
  * @param maxParticipants - Maximum number of participants
+ * @param startTime - When the event starts
+ * @param endTime - When the event ends
  * @param userId - ID of the user creating the event
  * @returns The created sport event
  */
@@ -13,6 +15,8 @@ export const createSportEvent = async (
   name: string,
   sport: string,
   maxParticipants: number,
+  startTime: string,
+  endTime: string,
   userId: string
 ): Promise<ISportEvent> => {
   // Create the event with the Model (not schema)
@@ -20,6 +24,8 @@ export const createSportEvent = async (
     name,
     sport,
     maxParticipants,
+    startTime,
+    endTime,
     createdBy: userId,
     participants: [], // Initialize empty participants array
   });

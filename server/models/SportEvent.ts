@@ -5,6 +5,8 @@ export interface ISportEvent extends mongoose.Document {
   sport: string;
   maxParticipants: number;
   createdBy: mongoose.Schema.Types.ObjectId;
+  startTime: Date;
+  endTime: Date;
   timestamps: true;
   participants: mongoose.Schema.Types.ObjectId[];
 }
@@ -39,6 +41,21 @@ const sportEventSchema = new mongoose.Schema(
       required: [true, "Maximum participants is required"],
       min: [2, "Minimum 2 participants required"],
       max: [100, "Maximum 100 participants allowed"],
+    },
+    startTime: {
+      type: Date,
+      required: [true, "Event start time is required"],
+    },
+    endTime: {
+      type: Date,
+      required: [true, "Event end time is required"],
+      validate: {
+        validator: function (value: Date) {
+          // 'this' refers to the document being validated
+          return value > this.startTime;
+        },
+        message: "End time must be after start time",
+      },
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
