@@ -6,6 +6,7 @@ import authRouter from "./routes/auth.js";
 import protectedRouter from "./routes/protected.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import mongoose from "mongoose";
+import eventRouter from "./routes/event.js";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 // Routes
 app.use("/api/auth", authRouter);
 app.use("/api/protected", protectedRouter);
+app.use("/api/events", eventRouter);
 
 // Error handler middleware (must be last)
 app.use(errorHandler);

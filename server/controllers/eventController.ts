@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import * as sportEventService from "../services/sportEventService.js";
+import * as eventService from "../services/eventService.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
 
 /**
@@ -8,10 +8,13 @@ import { asyncHandler } from "../middleware/errorHandler.js";
 export const createSportEvent = asyncHandler(
   async (req: Request, res: Response) => {
     const { name, sport, maxParticipants } = req.body;
-    const result = await sportEventService.createSportEvent(
+    const userId = req.user!.id;
+
+    const result = await eventService.createSportEvent(
       name,
       sport,
-      maxParticipants
+      maxParticipants,
+      userId
     );
     res.status(201).json(result);
   }
@@ -22,7 +25,7 @@ export const createSportEvent = asyncHandler(
  */
 export const getSportEvents = asyncHandler(
   async (req: Request, res: Response) => {
-    const result = await sportEventService.getSportEvents();
+    const result = await eventService.getSportEvents();
     res.status(200).json(result);
   }
 );
@@ -33,7 +36,7 @@ export const getSportEvents = asyncHandler(
 export const getSportEventById = asyncHandler(
   async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result = await sportEventService.getSportEventById(id);
+    const result = await eventService.getSportEventById(id);
     res.status(200).json(result);
   }
 );
@@ -44,7 +47,11 @@ export const getSportEventById = asyncHandler(
 export const updateSportEvent = asyncHandler(
   async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result = await sportEventService.updateSportEvent(id, req.body);
+    const result = await eventService.updateSportEvent(
+      id,
+      req.user!.id,
+      req.body
+    );
     res.status(200).json(result);
   }
 );
@@ -55,7 +62,9 @@ export const updateSportEvent = asyncHandler(
 export const deleteSportEvent = asyncHandler(
   async (req: Request, res: Response) => {
     const { id } = req.params;
-    await sportEventService.deleteSportEvent(id);
+    const userId = req.user!.id;
+
+    await eventService.deleteSportEvent(id, userId);
     res.status(204).send();
   }
 );
