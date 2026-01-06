@@ -52,14 +52,30 @@ const CreateEventDialog = () => {
       name: "",
       sport: undefined,
       maxParticipants: 10, // Sensible default
+      startDate: "",
+      startTime: "",
+      endDate: "",
+      endTime: "",
     },
   });
 
   // Handle form submission
   const onSubmit = async (values: CreateEventSchema) => {
     try {
+      // Combine date and time fields into ISO strings
+      const startDateTime = new Date(`${values.startDate}T${values.startTime}`);
+      const endDateTime = new Date(`${values.endDate}T${values.endTime}`);
+
+      // Prepare data for API (matches CreateEventData interface)
+      const eventData = {
+        name: values.name,
+        sport: values.sport,
+        maxParticipants: values.maxParticipants,
+        startTime: startDateTime.toISOString(),
+        endTime: endDateTime.toISOString(),
+      };
       // Call API to create event
-      const newEvent = await createEvent(values);
+      const newEvent = await createEvent(eventData);
 
       // Show success toast
       toast.success("Event created successfully!", {
@@ -178,6 +194,66 @@ const CreateEventDialog = () => {
                       {...field}
                       onChange={(e) => field.onChange(e.target.valueAsNumber)}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Start Date Field */}
+            <FormField
+              control={form.control}
+              name="startDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Start Date</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Start Time Field */}
+            <FormField
+              control={form.control}
+              name="startTime"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Start Time</FormLabel>
+                  <FormControl>
+                    <Input type="time" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* End Date Field */}
+            <FormField
+              control={form.control}
+              name="endDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>End Date</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* End Time Field */}
+            <FormField
+              control={form.control}
+              name="endTime"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>End Time</FormLabel>
+                  <FormControl>
+                    <Input type="time" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

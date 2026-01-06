@@ -30,6 +30,8 @@ export interface SportEvent {
   maxParticipans: number;
   createdBy: EventUser;
   participants: EventUser[];
+  startTime: string;
+  endTime: string;
   timestamps: boolean;
 }
 
@@ -40,4 +42,6 @@ export interface CreateEventData {
   name: string;
   sport: SportType;
   maxParticipants: number;
+  startTime: string;
+  endTime: string;
 }
